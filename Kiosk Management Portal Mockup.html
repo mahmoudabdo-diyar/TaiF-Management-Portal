@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kiosk Management Portal Mockups</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-2: #0b1728;
+      --panel: rgba(12, 24, 44, 0.78);
+      --panel-strong: rgba(10, 20, 38, 0.92);
+      --soft: rgba(120, 150, 255, 0.10);
+      --soft-2: rgba(77, 208, 225, 0.08);
+      --line: rgba(128, 163, 255, 0.16);
+      --line-strong: rgba(115, 192, 255, 0.30);
+      --text: #ecf6ff;
+      --muted: #98a9c7;
+      --primary: linear-gradient(135deg, #5b7cff 0%, #7a5cff 45%, #38d5ff 100%);
+      --primary-solid: #6d7dff;
+      --primary-2: #b8c7ff;
+      --success: #22c55e;
+      --warn: #f59e0b;
+      --danger: #f87171;
+      --shadow: 0 14px 34px rgba(0, 0, 0, 0.34);
+      --glow: 0 0 0 1px rgba(110, 136, 255, 0.16), 0 0 28px rgba(53, 191, 255, 0.09);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(91,124,255,.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(56,213,255,.12), transparent 26%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(circle at center, black 55%, transparent 100%);
+      pointer-events: none;
+      opacity: .35;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sidebar {
+      background: rgba(5, 12, 24, 0.86);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      color: #fff;
+      padding: 28px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid rgba(120, 150, 255, 0.12);
+      box-shadow: inset -1px 0 0 rgba(255,255,255,0.02);
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #5b7cff, #38d5ff);
+      box-shadow: 0 0 16px rgba(56,213,255,.9);
+    }
+
+    .nav-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #7384a7;
+      margin: 22px 10px 10px;
+    }
+
+    .nav a {
+      display: block;
+      text-decoration: none;
+      color: #d7e3ff;
+      padding: 13px 14px;
+      margin-bottom: 8px;
+      border-radius: 14px;
+      font-size: 14px;
+      border: 1px solid transparent;
+      transition: background .22s ease, transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+
+    .nav a.active,
+    .nav a:hover {
+      background: linear-gradient(135deg, rgba(91,124,255,.16), rgba(56,213,255,.12));
+      border-color: rgba(115, 192, 255, 0.22);
+      box-shadow: 0 0 0 1px rgba(91,124,255,.08), 0 8px 18px rgba(0,0,0,.15);
+      transform: translateX(2px);
+    }
+
+    .main {
+      padding: 28px;
+    }
+
+    .page { display: none; animation: fadeIn .25s ease; }
+    .page.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1, h2, h3, h4, p { margin: 0; }
+    h2 { font-size: 30px; margin-bottom: 6px; font-weight: 800; letter-spacing: -0.02em; }
+    h3 { font-weight: 800; }
+    .sub { color: var(--muted); font-size: 14px; }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid rgba(115, 192, 255, 0.16);
+      background: var(--primary);
+      color: white;
+      padding: 11px 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(52, 96, 255, 0.22);
+      transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 26px rgba(52, 96, 255, 0.26); }
+
+    .btn.secondary {
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .btn.success { background: linear-gradient(135deg, #16a34a, #22c55e); }
+    .btn.warn { background: linear-gradient(135deg, #d97706, #f59e0b); }
+    .btn.danger { background: linear-gradient(135deg, #dc2626, #f87171); }
+
+    .grid-4, .grid-3, .grid-2 { display: grid; gap: 18px; }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      background: linear-gradient(180deg, rgba(13,25,46,0.88), rgba(9,18,34,0.82));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow), var(--glow);
+      padding: 20px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .stat-title { color: var(--muted); font-size: 13px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .06em; }
+    .stat-value { font-size: 32px; font-weight: 800; margin-bottom: 6px; }
+    .stat-foot { font-size: 13px; color: var(--muted); }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: rgba(148, 163, 184, .12);
+      color: #dbe7ff;
+      border: 1px solid rgba(148, 163, 184, .15);
+    }
+
+    .tag.online { background: rgba(34,197,94,.14); color: #8bf1b1; border-color: rgba(34,197,94,.22); }
+    .tag.offline { background: rgba(248,113,113,.12); color: #ffb3b3; border-color: rgba(248,113,113,.22); }
+    .tag.sync { background: rgba(245,158,11,.12); color: #ffd18b; border-color: rgba(245,158,11,.22); }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .input, .select, .textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 11px 12px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .input:focus, .select:focus, .textarea:focus {
+      border-color: var(--line-strong);
+      box-shadow: 0 0 0 4px rgba(56,213,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .input::placeholder, .textarea::placeholder { color: #7f92b8; }
+    .textarea { min-height: 90px; resize: vertical; }
+    .toolbar .input, .toolbar .select { width: 220px; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td {
+      text-align: left;
+      padding: 14px 12px;
+      border-bottom: 1px solid rgba(128, 163, 255, 0.10);
+      font-size: 14px;
+      vertical-align: top;
+    }
+    th {
+      color: #7f92b8;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+    tbody tr:hover { background: rgba(91,124,255,0.06); }
+
+    .mini-chart {
+      height: 170px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at top right, rgba(56,213,255,.12), transparent 32%),
+        linear-gradient(180deg, rgba(15,30,54,.95), rgba(7,15,28,.98));
+      border: 1px solid rgba(115,192,255,.16);
+      position: relative;
+      overflow: hidden;
+    }
+    .mini-chart::before, .mini-chart::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      border-top: 1px dashed rgba(128, 163, 255, 0.20);
+    }
+    .mini-chart::before { top: 55px; }
+    .mini-chart::after { top: 105px; }
+    .line {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 26px;
+      height: 90px;
+      border-bottom: 3px solid #73c0ff;
+      border-right: 3px solid transparent;
+      border-top-right-radius: 100px;
+      transform: skewX(-25deg) translateY(14px);
+      opacity: .88;
+      filter: drop-shadow(0 0 10px rgba(115,192,255,.45));
+    }
+
+    .section-title { font-size: 18px; font-weight: 800; margin-bottom: 14px; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #bfd1f8;
+    }
+
+    .upload-box {
+      border: 1px dashed rgba(115,192,255,.30);
+      border-radius: 18px;
+      padding: 28px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(56,213,255,.04), rgba(91,124,255,.06));
+      color: var(--muted);
+    }
+
+    .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+    .tab {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      color: #bdd0ff;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid rgba(128, 163, 255, 0.10);
+    }
+    .tab.active {
+      background: linear-gradient(135deg, rgba(91,124,255,.24), rgba(56,213,255,.18));
+      color: white;
+      border-color: rgba(115,192,255,.24);
+      box-shadow: 0 8px 18px rgba(0,0,0,.16);
+    }
+    .config-panel { display: none; }
+    .config-panel.active { display: block; }
+
+    .list { display: grid; gap: 12px; }
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.02);
+      transition: border-color .2s ease, transform .2s ease, background .2s ease;
+    }
+    .list-item:hover {
+      border-color: rgba(115,192,255,.24);
+      background: rgba(91,124,255,0.05);
+      transform: translateY(-1px);
+    }
+
+    .clickable { cursor: pointer; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .split { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 18px; }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(91,124,255,.55), rgba(56,213,255,.45));
+      display: inline-block;
+      margin-right: 12px;
+      vertical-align: middle;
+      box-shadow: 0 0 0 2px rgba(115,192,255,.18);
+    }
+    .file-pill {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(56,213,255,0.08);
+      color: #9ddfff;
+      font-size: 12px;
+      font-weight: 800;
+      margin-right: 8px;
+      margin-top: 6px;
+      border: 1px solid rgba(56,213,255,0.16);
+    }
+
+    .profile-layout { display: grid; grid-template-columns: 320px 1fr; gap: 18px; }
+    .profile-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,0.02);
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: border-color .2s ease, transform .2s ease, background .2s ease;
+    }
+    .profile-card:hover { transform: translateY(-1px); }
+    .profile-card.active {
+      border-color: rgba(115,192,255,.28);
+      background: linear-gradient(135deg, rgba(91,124,255,.12), rgba(56,213,255,.08));
+      box-shadow: 0 0 0 2px rgba(17,24,39,.08);
+    }
+    .stack { display: grid; gap: 16px; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 9, 18, 0.74);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 1000;
+    }
+    .modal.active { display: flex; }
+    .modal-box {
+      width: min(860px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      background: linear-gradient(180deg, rgba(11,22,40,.98), rgba(7,15,28,.98));
+      border-radius: 24px;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.40);
+      border: 1px solid var(--line);
+    }
+    .modal-box.small { width: min(720px, 100%); }
+    .modal-header {
+      padding: 20px 22px;
+      border-bottom: 1px solid rgba(128, 163, 255, 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .modal-body { padding: 22px; }
+    .close-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: white;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    #requirements > div[style*="grid-template-columns:280px 1fr"] { grid-template-columns: 300px 1fr !important; }
+
+    @media (max-width: 1100px) {
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3, .split, .grid-2, .form-grid, .profile-layout, #requirements > div[style*="grid-template-columns:280px 1fr"] { grid-template-columns: 1fr !important; }
+      .app { grid-template-columns: 1fr; }
+      .sidebar { position: relative; height: auto; }
+    }
+    @media (max-width: 700px) {
+      .grid-4 { grid-template-columns: 1fr; }
+      .main { padding: 18px; }
+      th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">Kiosk Portal</div>
+      <nav class="nav">
+        <div class="nav-section-title">Main</div>
+        <a href="#dashboard" class="menu-link active" data-target="dashboard">Dashboard</a>
+        <a href="#kiosks" class="menu-link" data-target="kiosks">Kiosk Management</a>
+        <a href="#knowledge" class="menu-link" data-target="knowledge">Knowledge Base</a>
+        <a href="#config" class="menu-link" data-target="config">Configuration</a>
+        <a href="#enrollment" class="menu-link" data-target="enrollment">User Enrollment</a>
+        <a href="#content" class="menu-link" data-target="content">Content Management</a>
+        <div class="nav-section-title">Support</div>
+        <a href="#history" class="menu-link" data-target="history">Chat History</a>
+        <a href="#audit" class="menu-link" data-target="audit">Audit & Reports</a>
+		<a href="#requirements" class="menu-link" data-target="requirements">Requirements</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:14px;">
+        <div style="padding:8px 12px;border:1px solid rgba(115,192,255,.18);border-radius:999px;background:rgba(56,213,255,.06);color:#9ddfff;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;">AI Control Center</div>
+      </div>
+      <section class="page active" id="dashboard">
+        <div class="page-header">
+          <div>
+            <h2>Dashboard</h2>
+            <p class="sub">Real-time engagement, kiosk health, and operational visibility</p>
+          </div>
+          <div class="actions">
+            <button class="btn secondary">Export Excel</button>
+            <button class="btn">Export PDF</button>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="card"><div class="stat-title">Active Kiosks</div><div class="stat-value">8</div><div class="stat-foot">2 require attention</div></div>
+          <div class="card"><div class="stat-title">Today Sessions</div><div class="stat-value">126</div><div class="stat-foot">+18% vs yesterday</div></div>
+          <div class="card"><div class="stat-title">Avg Session Duration</div><div class="stat-value">03:42</div><div class="stat-foot">Across all kiosks</div></div>
+          <div class="card"><div class="stat-title">Gesture Feedback</div><div class="stat-value">91%</div><div class="stat-foot">Positive interaction rate</div></div>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px;">
+          <div class="card"><div class="section-title">Engagement Trend</div><div class="mini-chart"><div class="line"></div></div></div>
+          <div class="card">
+            <div class="section-title">Kiosk Activity Snapshot</div>
+            <div class="list">
+              <div class="list-item"><div><strong>Kiosk – Reception</strong><div class="muted">42 sessions today</div></div><span class="tag online">Online</span></div>
+              <div class="list-item"><div><strong>Kiosk – HR Lobby</strong><div class="muted">Pending content sync</div></div><span class="tag sync">Syncing</span></div>
+              <div class="list-item"><div><strong>Kiosk – Main Hall</strong><div class="muted">Offline for 12 min</div></div><span class="tag offline">Offline</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="kiosks">
+        <div class="page-header">
+          <div>
+            <h2>Kiosk Management</h2>
+            <p class="sub">Control kiosk status, profile assignment, updates, and sync operations</p>
+          </div>
+          <div class="actions">
+            <button class="btn secondary">Schedule Restart</button>
+            <button class="btn">Add Kiosk</button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <input class="input" placeholder="Search by kiosk name or ID" />
+          <select class="select"><option>All Statuses</option><option>Online</option><option>Offline</option></select>
+          <select class="select"><option>All Profiles</option><option>Male</option><option>Female</option><option>Test</option></select>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Kiosk</th><th>Status</th><th>Assigned Profile</th><th>Knowledge Base</th><th>Last Heartbeat</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr class="clickable kiosk-row" data-modal="kioskModal"><td><strong>K-001</strong><br><span class="muted">Reception Kiosk</span></td><td><span class="tag online">Online</span></td><td>Haya</td><td>HR Knowledge Base</td><td>Just now</td><td>Click to manage kiosk</td></tr>
+              <tr class="clickable kiosk-row" data-modal="kioskModal"><td><strong>K-002</strong><br><span class="muted">Main Hall Kiosk</span></td><td><span class="tag offline">Offline</span></td><td>Abdelrahman</td><td>General Info Base</td><td>12 min ago</td><td>Click to manage kiosk</td></tr>
+              <tr class="clickable kiosk-row" data-modal="kioskModal"><td><strong>K-003</strong><br><span class="muted">HR Lobby Kiosk</span></td><td><span class="tag sync">Syncing</span></td><td>Test</td><td>Leave Policy Base</td><td>1 min ago</td><td>Click to manage kiosk</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="knowledge">
+        <div class="page-header">
+          <div>
+            <h2>Knowledge Base Management</h2>
+            <p class="sub">Upload PDF knowledge sources and assign them to kiosks</p>
+          </div>
+          <div class="actions"><button class="btn">Create Knowledge Base</button></div>
+        </div>
+        <div class="split">
+          <div class="card">
+            <div class="section-title">Knowledge Base Details</div>
+            <div class="form-grid">
+              <div class="field"><label>Knowledge Base Name</label><input class="input" value="HR Knowledge Base" /></div>
+              <div class="field"><label>Language Support</label><select class="select"><option>Arabic + English</option></select></div>
+              <div class="field" style="grid-column:1 / -1;"><label>Description</label><textarea class="textarea">Knowledge source for HR policies, leave requests, salary certificates, and labor law inquiries.</textarea></div>
+            </div>
+            <div style="margin-top:16px;" class="upload-box">Drag & drop PDF files here or click to upload<div style="margin-top:10px;"><span class="file-pill">LeavePolicy.pdf</span><span class="file-pill">SalaryCertificateGuide.pdf</span></div></div>
+            <div class="actions" style="margin-top:16px;"><button class="btn success">Upload & Ingest</button><button class="btn secondary">Save Draft</button></div>
+          </div>
+          <div class="card">
+            <div class="section-title">Assigned Kiosks</div>
+            <div class="list">
+              <div class="list-item clickable kb-item" data-modal="knowledgeModal"><div><strong>HR Knowledge Base</strong><div class="muted">Arabic + English · 2 PDFs · Assigned to 2 kiosks</div></div><button class="btn secondary">View Details</button></div>
+              <div class="list-item clickable kb-item" data-modal="knowledgeModal"><div><strong>General Info Base</strong><div class="muted">Arabic + English · 3 PDFs · Assigned to 1 kiosk</div></div><button class="btn secondary">View Details</button></div>
+              <div class="list-item clickable kb-item" data-modal="knowledgeModal"><div><strong>Leave Policy Base</strong><div class="muted">Arabic + English · 1 PDF · Assigned to 1 kiosk</div></div><button class="btn secondary">View Details</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="config">
+        <div class="page-header">
+          <div>
+            <h2>Configuration Management</h2>
+            <p class="sub">Create a profile first, then add and manage its configuration sections</p>
+          </div>
+          <div class="actions">
+            <button class="btn secondary">Publish Profile Update</button>
+            <button class="btn">Create New Profile</button>
+          </div>
+        </div>
+
+        <div class="profile-layout">
+          <div class="card">
+            <div class="section-title">Profiles</div>
+            <div class="profile-card active">
+              <strong>Haya</strong>
+              <div class="muted" style="margin-top:6px;">Arabic / English · Assigned to 1 kiosk</div>
+            </div>
+            <div class="profile-card">
+              <strong>Abdelrahman</strong>
+              <div class="muted" style="margin-top:6px;">Arabic / English · Assigned to 2 kiosks</div>
+            </div>
+            <div class="profile-card">
+              <strong>Test</strong>
+              <div class="muted" style="margin-top:6px;">Testing profile · Assigned to 1 kiosk</div>
+            </div>
+            <div class="actions" style="margin-top:14px;">
+              <button class="btn" id="openNewProfile">+ Create Profile</button>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="card">
+              <div class="section-title">Create / Edit Profile</div>
+              <div class="form-grid">
+                <div class="field"><label>Profile Name</label><input class="input" value="Haya" /></div>
+                <div class="field"><label>Avatar ID</label><input class="input" value="b291690c422047be8f9fd618f8ddaf66" /></div>
+                <div class="field"><label>Name (AR)</label><input class="input" value="هيا" /></div>
+                <div class="field"><label>Name (EN)</label><input class="input" value="Haya" /></div>
+              </div>
+              <div class="actions" style="margin-top:16px;"><button class="btn success">Save Profile</button><button class="btn secondary">Assign to Kiosk</button></div>
+            </div>
+
+            <div class="card">
+              <div class="section-title">Profile Configuration Sections</div>
+              <div class="tabs" id="configTabs">
+                <div class="tab active" data-config-tab="general">General</div>
+                <div class="tab" data-config-tab="responses">Responses</div>
+                <div class="tab" data-config-tab="video">Videos</div>
+                <div class="tab" data-config-tab="display">Display</div>
+                <div class="tab" data-config-tab="integration">Integration</div>
+              </div>
+
+              <div class="config-panel active" data-config-panel="general">
+                <div class="form-grid">
+                  <div class="field"><label>Show Webcam</label><select class="select"><option>True</option></select></div>
+                  <div class="field"><label>Show User Transcript</label><select class="select"><option>True</option></select></div>
+                  <div class="field"><label>Show Avatar Transcript</label><select class="select"><option>True</option></select></div>
+                  <div class="field"><label>Default Word Count</label><input class="input" value="20" /></div>
+                </div>
+              </div>
+
+              <div class="config-panel" data-config-panel="responses">
+                <div class="form-grid">
+                  <div class="field"><label>Welcome Text (AR)</label><input class="input" value="بتكون وياك خلال ثواني" /></div>
+                  <div class="field"><label>Welcome Text (EN)</label><input class="input" value="She’ll be with you in a few seconds" /></div>
+                  <div class="field"><label>Thumbs Up Text (AR)</label><input class="input" value="مبسوطة إنك راضي نعتز بثقتك فينا" /></div>
+                  <div class="field"><label>Thumbs Up Text (EN)</label><input class="input" value="Happy that you’re satisfied — we value your trust in us" /></div>
+                </div>
+              </div>
+
+              <div class="config-panel" data-config-panel="video">
+                <div class="form-grid">
+                  <div class="field"><label>Welcome Video</label><input class="input" value="C:/TaifVideo/Haya/WelcomeHaya.mp4" /></div>
+                  <div class="field"><label>Exit Video</label><input class="input" value="C:/TaifVideo/Haya/OutroHaya.mp4" /></div>
+                  <div class="field"><label>Marketing Video</label><input class="input" value="C:/TaifVideo/Haya/OutroHaya.mp4" /></div>
+                  <div class="field"><label>Gesture Video Mapping</label><input class="input" value="applyforleave → ExitVideoHaya.mp4" /></div>
+                </div>
+              </div>
+
+              <div class="config-panel" data-config-panel="display">
+                <div class="form-grid">
+                  <div class="field"><label>Camera Horizontal Offset</label><input class="input" value="10" /></div>
+                  <div class="field"><label>Camera Vertical Offset</label><input class="input" value="75" /></div>
+                  <div class="field"><label>Idle Prompt Seconds</label><input class="input" value="20" /></div>
+                  <div class="field"><label>Word Delay (ms)</label><input class="input" value="450" /></div>
+                </div>
+              </div>
+
+              <div class="config-panel" data-config-panel="integration">
+                <div class="form-grid">
+                  <div class="field"><label>WebSocket URL</label><input class="input" value="wss://example.azurewebsites.net/ws" /></div>
+                  <div class="field"><label>Chatbot Root URL</label><input class="input" value="https://example.azurewebsites.net/" /></div>
+                  <div class="field"><label>Analyze Frame URL</label><input class="input" value="https://api.example.com/analyze_frame" /></div>
+                  <div class="field"><label>Server URL</label><input class="input" value="https://api.liveavatar.com" /></div>
+                </div>
+              </div>
+
+              <div class="actions" style="margin-top:16px;"><button class="btn success">Save Section Changes</button><button class="btn secondary">Preview Profile</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="enrollment">
+        <div class="page-header">
+          <div><h2>User Picture Enrollment</h2><p class="sub">Register users with email, picture, and kiosk access assignments</p></div>
+          <div class="actions"><button class="btn">New Enrollment</button></div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="section-title">Enrollment Form</div>
+            <div class="form-grid">
+              <div class="field" style="grid-column:1 / -1;"><label>Email</label><input class="input" value="user@example.com" /></div>
+              <div class="field" style="grid-column:1 / -1;"><label>Picture Upload</label><div class="upload-box">Upload user picture</div></div>
+              <div class="field" style="grid-column:1 / -1;"><label>Assigned Kiosks</label><div class="list"><div class="list-item"><div>Reception Kiosk</div><input type="checkbox" checked /></div><div class="list-item"><div>Main Hall Kiosk</div><input type="checkbox" checked /></div><div class="list-item"><div>HR Lobby Kiosk</div><input type="checkbox" /></div></div></div>
+            </div>
+            <div class="actions" style="margin-top:16px;"><button class="btn success">Save Enrollment</button><button class="btn secondary">Check Existing Email</button></div>
+          </div>
+          <div class="card">
+            <div class="section-title">Recent Enrollments</div>
+            <div class="list">
+              <div class="list-item"><div><span class="avatar"></span><strong>mahmoud@company.com</strong><div class="muted">Assigned to 2 kiosks</div></div><button class="btn secondary">Edit</button></div>
+              <div class="list-item"><div><span class="avatar"></span><strong>sara@company.com</strong><div class="muted">Assigned to 1 kiosk</div></div><button class="btn secondary">Edit</button></div>
+              <div class="list-item"><div><span class="avatar"></span><strong>guest.hr@company.com</strong><div class="muted">Assigned to 3 kiosks</div></div><button class="btn secondary">Edit</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="content">
+        <div class="page-header">
+          <div><h2>Content Management</h2><p class="sub">Upload images and videos, then sync them to assigned kiosks</p></div>
+          <div class="actions"><button class="btn">Upload Content</button></div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="section-title">Upload Content</div>
+            <div class="form-grid">
+              <div class="field"><label>Content Name</label><input class="input" value="Welcome Campaign April" /></div>
+              <div class="field"><label>Content Type</label><select class="select"><option>Video</option><option>Image</option></select></div>
+              <div class="field" style="grid-column:1 / -1;"><label>File Upload</label><div class="upload-box">Drop image/video file here</div></div>
+            </div>
+            <div class="actions" style="margin-top:16px;"><button class="btn success">Save & Publish</button><button class="btn secondary">Save Only</button></div>
+          </div>
+          <div class="card">
+            <div class="section-title">Content Library</div>
+            <table>
+              <thead><tr><th>Name</th><th>Type</th><th>Status</th><th>Assigned</th></tr></thead>
+              <tbody>
+                <tr><td>Welcome Campaign April</td><td>Video</td><td><span class="tag online">Published</span></td><td>3 Kiosks</td></tr>
+                <tr><td>HR Promotion Banner</td><td>Image</td><td><span class="tag">Saved</span></td><td>1 Kiosk</td></tr>
+                <tr><td>Labor Law Intro</td><td>Video</td><td><span class="tag sync">Sync Pending</span></td><td>2 Kiosks</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="history">
+        <div class="page-header">
+          <div><h2>Chat History</h2><p class="sub">View kiosk conversations by kiosk, user, and date range</p></div>
+        </div>
+        <div class="toolbar"><select class="select"><option>Reception Kiosk</option></select><input class="input" placeholder="Search user / session" /><input class="input" placeholder="Date range" /></div>
+        <div class="grid-2">
+          <div class="card"><div class="section-title">Users / Sessions</div><div class="list"><div class="list-item clickable user-item" data-modal="userSessionsModal"><div><strong>mahmoud@company.com</strong><div class="muted">Today · 10:32 AM</div></div><span class="tag">Identified</span></div><div class="list-item clickable user-item" data-modal="userSessionsModal"><div><strong>Anonymous Session</strong><div class="muted">Today · 09:55 AM</div></div><span class="tag">Anonymous</span></div><div class="list-item clickable user-item" data-modal="userSessionsModal"><div><strong>sara@company.com</strong><div class="muted">Yesterday · 04:18 PM</div></div><span class="tag">Identified</span></div></div></div>
+          <div class="card"><div class="section-title">Conversation View</div><div class="list"><div class="list-item"><div><strong>User:</strong> I need a salary certificate.</div></div><div class="list-item"><div><strong>Kiosk:</strong> Sure, I can guide you through the request steps.</div></div><div class="list-item"><div><strong>User:</strong> Can I get it in English?</div></div><div class="list-item"><div><strong>Kiosk:</strong> Yes, Arabic and English are both available.</div></div></div></div>
+        </div>
+      </section>
+
+      <section class="page" id="audit">
+        <div class="page-header">
+          <div><h2>Audit & Reports</h2><p class="sub">Track system activity and export operational reports</p></div>
+          <div class="actions"><button class="btn secondary">Export Excel</button><button class="btn">Export PDF</button></div>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Date / Time</th><th>Module</th><th>Event</th><th>User</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>2026-04-03 10:12</td><td>Configuration</td><td>Profile Updated</td><td>Admin</td><td>Updated Haya welcome text and enabled webcam.</td></tr>
+              <tr><td>2026-04-03 09:58</td><td>Content</td><td>Content Published</td><td>Operator</td><td>Published Welcome Campaign April to 3 kiosks.</td></tr>
+              <tr><td>2026-04-03 09:47</td><td>Kiosk</td><td>Restart Queued</td><td>Admin</td><td>Restart queued for Main Hall Kiosk while offline.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+	  <section class="page" id="requirements">
+  <div class="page-header">
+    <div>
+      <h2>Requirements</h2>
+      <p class="sub">Functional document sections</p>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:280px 1fr;gap:18px;">
+    
+    <!-- LEFT MENU -->
+    <div class="card">
+      <div class="list">
+        <div class="list-item clickable req-item active" data-req="overview">Overview</div>
+        <div class="list-item clickable req-item" data-req="kb">Knowledge Base Management</div>
+        <div class="list-item clickable req-item" data-req="chat">Chat History Management</div>
+        <div class="list-item clickable req-item" data-req="config">Configuration Management</div>
+        <div class="list-item clickable req-item" data-req="kiosk">Kiosk Management</div>
+        <div class="list-item clickable req-item" data-req="user">User Picture Enrollment</div>
+        <div class="list-item clickable req-item" data-req="dashboardDoc">Dashboard and Analytics</div>
+        <div class="list-item clickable req-item" data-req="content">Content Management</div>
+        <div class="list-item clickable req-item" data-req="db">Database Structure</div>
+        <div class="list-item clickable req-item" data-req="api">Kiosk Management Portal – API Endpoint Structure</div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="card">
+      <div id="reqContent" style="white-space:pre-wrap;line-height:1.6;"></div>
+    </div>
+
+  </div>
+</section>
+    </main>
+  </div>
+
+  <div class="modal" id="kioskModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h3>Kiosk Configuration</h3>
+          <p class="sub">Manage kiosk-level settings and force actions</p>
+        </div>
+        <button class="close-btn" data-close="kioskModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field"><label>Kiosk Name</label><input class="input" value="Reception Kiosk" /></div>
+          <div class="field"><label>Kiosk ID</label><input class="input" value="K-001" /></div>
+          <div class="field"><label>Profile</label><select class="select"><option>Haya</option><option>Abdelrahman</option><option>Test</option></select></div>
+          <div class="field"><label>Knowledge Base</label><select class="select"><option>HR Knowledge Base</option><option>General Info Base</option><option>Leave Policy Base</option></select></div>
+          <div class="field"><label>Enabled / Disabled</label><select class="select"><option>Enabled</option><option>Disabled</option></select></div>
+          <div class="field"><label>Maintenance Mode</label><select class="select"><option>Off</option><option>On</option></select></div>
+        </div>
+        <div class="actions" style="margin-top:18px;">
+          <button class="btn success">Save Changes</button>
+          <button class="btn warn">Force Restart</button>
+          <button class="btn secondary">Force Config Sync</button>
+          <button class="btn secondary">Force Content Sync</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="knowledgeModal">
+    <div class="modal-box small">
+      <div class="modal-header">
+        <div>
+          <h3>Knowledge Base Details</h3>
+          <p class="sub">View the selected knowledge base information</p>
+        </div>
+        <button class="close-btn" data-close="knowledgeModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="stack">
+          <div class="card">
+            <div class="form-grid">
+              <div class="field"><label>Name</label><input class="input" value="HR Knowledge Base" /></div>
+              <div class="field"><label>Language Support</label><input class="input" value="Arabic + English" /></div>
+              <div class="field" style="grid-column:1 / -1;"><label>Description</label><textarea class="textarea">Knowledge source for HR policies, leave requests, salary certificates, and labor law inquiries.</textarea></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="section-title">Documents</div>
+            <span class="file-pill">LeavePolicy.pdf</span>
+            <span class="file-pill">SalaryCertificateGuide.pdf</span>
+          </div>
+          <div class="card">
+            <div class="section-title">Assigned Kiosks</div>
+            <div class="list">
+              <div class="list-item"><div><strong>Reception Kiosk</strong><div class="muted">K-001</div></div><span class="tag">Assigned</span></div>
+              <div class="list-item"><div><strong>HR Lobby Kiosk</strong><div class="muted">K-003</div></div><span class="tag">Assigned</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="newProfileModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h3>Create New Profile</h3>
+          <p class="sub">Start with empty fields, then add the needed configuration</p>
+        </div>
+        <button class="close-btn" data-close="newProfileModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field"><label>Profile Name</label><input class="input" placeholder="Enter profile name" /></div>
+          <div class="field"><label>Avatar ID</label><input class="input" placeholder="Enter avatar ID" /></div>
+          <div class="field"><label>Name (AR)</label><input class="input" placeholder="أدخل الاسم بالعربية" /></div>
+          <div class="field"><label>Name (EN)</label><input class="input" placeholder="Enter English name" /></div>
+          <div class="field"><label>Default Profile Status</label><select class="select"><option>Select status</option><option>Active</option><option>Inactive</option></select></div>
+          <div class="field"><label>Assign to Kiosk</label><select class="select"><option>Select kiosk</option><option>Reception Kiosk</option><option>Main Hall Kiosk</option></select></div>
+        </div>
+        <div class="actions" style="margin-top:18px;">
+          <button class="btn success">Create Profile</button>
+          <button class="btn secondary" data-close="newProfileModal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="userSessionsModal">
+    <div class="modal-box small">
+      <div class="modal-header">
+        <div>
+          <h3>User Previous Sessions</h3>
+          <p class="sub">Select a previous session to view its conversation history</p>
+        </div>
+        <button class="close-btn" data-close="userSessionsModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="list" style="margin-bottom:18px;">
+          <div class="list-item clickable session-item"><div><strong>Session 1</strong><div class="muted">Today · 10:32 AM · 7 messages</div></div><span class="tag">Open</span></div>
+          <div class="list-item clickable session-item"><div><strong>Session 2</strong><div class="muted">Yesterday · 04:18 PM · 4 messages</div></div><span class="tag">Open</span></div>
+          <div class="list-item clickable session-item"><div><strong>Session 3</strong><div class="muted">2 days ago · 11:05 AM · 9 messages</div></div><span class="tag">Open</span></div>
+        </div>
+        <div class="card" id="sessionHistoryBox">
+          <div class="section-title">Session History</div>
+          <div class="list">
+            <div class="list-item"><div><strong>User:</strong> I need a salary certificate.</div></div>
+            <div class="list-item"><div><strong>Kiosk:</strong> Sure, I can guide you through the request steps.</div></div>
+            <div class="list-item"><div><strong>User:</strong> Can I get it in English?</div></div>
+            <div class="list-item"><div><strong>Kiosk:</strong> Yes, Arabic and English are both available.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const menuLinks = document.querySelectorAll('.menu-link');
+    const pages = document.querySelectorAll('.page');
+
+    menuLinks.forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = this.dataset.target;
+
+        menuLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+
+        pages.forEach(page => page.classList.remove('active'));
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    const configTabs = document.querySelectorAll('[data-config-tab]');
+    const configPanels = document.querySelectorAll('[data-config-panel]');
+
+    configTabs.forEach(tab => {
+      tab.addEventListener('click', function () {
+        const target = this.dataset.configTab;
+        configTabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        configPanels.forEach(panel => panel.classList.remove('active'));
+        document.querySelector(`[data-config-panel="${target}"]`).classList.add('active');
+      });
+    });
+
+    const profileCards = document.querySelectorAll('.profile-card');
+    profileCards.forEach(card => {
+      card.addEventListener('click', function () {
+        profileCards.forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    const openModal = (id) => document.getElementById(id)?.classList.add('active');
+    const closeModal = (id) => document.getElementById(id)?.classList.remove('active');
+
+    document.querySelectorAll('[data-modal]').forEach(el => {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal(this.dataset.modal);
+      });
+    });
+
+    document.getElementById('openNewProfile')?.addEventListener('click', function () {
+      openModal('newProfileModal');
+    });
+
+    document.querySelectorAll('[data-close]').forEach(btn => {
+      btn.addEventListener('click', function () {
+        closeModal(this.dataset.close);
+      });
+    });
+
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.classList.remove('active');
+      });
+    });
+
+    document.querySelectorAll('.session-item').forEach((item, index) => {
+      item.addEventListener('click', function () {
+        const histories = [
+          [
+            'User: I need a salary certificate.',
+            'Kiosk: Sure, I can guide you through the request steps.',
+            'User: Can I get it in English?',
+            'Kiosk: Yes, Arabic and English are both available.'
+          ],
+          [
+            'User: What are the leave request requirements?',
+            'Kiosk: I can explain the leave request process and required details.',
+            'User: Thank you.',
+            'Kiosk: You are welcome.'
+          ],
+          [
+            'User: Can you help me with labor law information?',
+            'Kiosk: Yes, I can provide guidance based on the available knowledge base.',
+            'User: Show me the main points.',
+            'Kiosk: Here are the main details related to your request.'
+          ]
+        ];
+
+        const box = document.getElementById('sessionHistoryBox');
+        box.innerHTML = '<div class="section-title">Session History</div><div class="list">' + histories[index].map(line => `<div class="list-item"><div><strong>${line.split(':')[0]}:</strong>${line.substring(line.indexOf(':') + 1)}</div></div>`).join('') + '</div>';
+      });
+    });
+	const reqData = {
+overview: `Overview
+The Kiosk Management Portal is a centralized, web-based orchestration layer for a fleet of AI-integrated kiosks. Because the kiosks are "thin clients" without local logic, this portal serves as the single source of truth for AI knowledge, system configurations, and operational health.`,
+
+kb: `Knowledge Base Management
+The AI's intelligence is managed through modular knowledge bases.
+•	Document Injection: Admins shall upload PDF documents to be processed by the AI engine.
+•	Multi-Tenancy: A single KB can be assigned to multiple kiosks simultaneously.
+•	Real-time Sync: Updates to a KB must reflect in the AI engine without manual kiosk intervention.
+`,
+
+chat: `Chat History Management
+•	The portal integrates with an external API to retrieve chat history and display user interactions. 
+•	Users are displayed in a list, including both identified and anonymous sessions. 
+•	Selecting a user opens a popup showing all previous sessions associated with that user. 
+•	Each session can be opened to display the full conversation history. 
+•	The system follows a layered navigation approach: 
+	o	User level 
+	o	Session level 
+	o	Message-level interaction 
+•	This structure provides clear visibility into system usage and user behavior.
+`,
+
+config: `Configuration Management
+To avoid technical errors, configurations are handled via a UI-driven Profile system.
+•	Profile Creation: Admins shall create profiles containing:
+	o	Identity: Name, Avatar, AI Persona.
+	o	Behavior: Response parameters and UI display settings.
+	o	Integrations: AI Engine keys and external API hooks.
+•	Inheritance: Kiosks assigned to a profile automatically inherit all settings upon their next poll.
+`,
+
+kiosk: `Kiosk Management
+•	Live Status: Display a dashboard of all kiosks with statuses: Online, Offline, or Syncing.
+•	Remote Actions:
+	o	Force Restart.
+	o	Force Config/Content Sync.
+•	Command Queuing: If a kiosk is offline, actions must be stored in a "Pending" state and executed immediately upon reconnection.
+`,
+
+user: `User Picture Enrollment
+•	The system supports user enrollment for face recognition functionality. 
+•	Administrators can register users by providing their email and uploading a profile image. 
+•	Each user can be assigned to one or multiple kiosks, defining where they can interact. 
+•	The portal handles: 
+	o	User creation and image upload 
+	o	Kiosk assignment per user 
+	o	Centralized management of enrolled users 
+•	Face recognition is performed at the kiosk level, while the portal manages the user data.
+`,
+
+dashboardDoc: `Dashboard and Analytics
+•	The dashboard provides a real-time overview of system performance and user engagement. 
+•	It aggregates data and presents key insights such as: 
+	o	Number of sessions 
+	o	Session duration 
+	o	Interaction count 
+	o	Gesture usage (e.g., thumbs up/down) 
+•	The system also maintains audit logs that track: 
+	o	User activities 
+	o	System operations 
+	o	Administrative actions 
+•	Audit logs can be viewed within the portal or exported for reporting purposes.
+`,
+
+content: `Content Management
+•	The portal allows administrators to upload and manage multimedia content used by kiosks, including videos and images. 
+•	Content is stored with metadata and can be assigned through configurations. 
+•	Kiosks detect updates through polling and synchronize the content locally. 
+•	The system supports: 
+	o	Multiple content items per kiosk 
+	o	Centralized content updates 
+	o	Offline-ready synchronization
+`,
+
+db: `Database Structure
+The system is built on a relational database that supports all portal operations and maintains relationships between entities.
+The main entities include:
+•	Kiosks → store identity, status, and assignments 
+	o	KioskId 
+	o	KioskName 
+	o	Description 
+	o	Status (Online / Offline / Syncing) 
+	o	IsEnabled 
+	o	IsUnderMaintenance 
+	o	CurrentProfileId 
+	o	CurrentKnowledgeBaseId 
+	o	LastHeartbeatAt 
+	o	CreatedAt 
+	o	UpdatedAt
+•	Kiosk Actions→ Tracks operational commands sent to kiosks.
+	o	ActionId 
+	o	KioskId 
+	o	ActionType (Restart / Config Sync / Content Sync) 
+	o	Status (Pending / Completed / Failed) 
+	o	RequestedAt 
+	o	ProcessedAt 
+	o	RequestedBy
+•	Kiosk Heartbeats→ Tracks connectivity and health status.
+	o	HeartbeatId 
+	o	KioskId 
+	o	Status 
+	o	HeartbeatAt 
+	o	ClientVersion 
+	o	LastConfigVersion 
+	o	LastContentVersion
+•	Configuration Management→ Represents a full configuration set for kiosks.
+	o	ProfileId 
+	o	ProfileName 
+	o	AvatarId 
+	o	NameAr 
+	o	NameEn 
+	o	IsActive 
+	o	CreatedAt 
+	o	UpdatedAt
+•	Profile Configurations→ Stores configuration sections per profile (flexible structure).
+	o	ConfigId 
+	o	ProfileId 
+	o	SectionName (General / UI / AI / Integration / Timing) 
+	o	ConfigKey 
+	o	ConfigValue 
+	o	CreatedAt 
+	o	UpdatedAt
+•	Knowledge Bases→ Defines AI knowledge sources. 
+	o	KnowledgeBaseId 
+	o	KnowledgeBaseName 
+	o	Description 
+	o	LanguageSupport 
+	o	CreatedAt 
+	o	UpdatedAt
+•	Knowledge Base Documents→ Stores uploaded files.
+	o	DocumentId 
+	o	KnowledgeBaseId 
+	o	FileName 
+	o	FilePath 
+	o	FileType (PDF) 
+	o	UploadedAt
+•	Knowledge Base – Kiosk Mapping→ Defines assignment of knowledge bases to kiosks.
+	o	MappingId 
+	o	KnowledgeBaseId 
+	o	KioskId 
+	o	AssignedAt
+•	Content Management→ Stores multimedia files.
+	o	ContentId 
+	o	ContentName 
+	o	ContentType (Image / Video) 
+	o	FilePath 
+	o	IsPublished 
+	o	CreatedAt 
+	o	UpdatedAt
+•	Content Assignment→ Maps content to kiosks.
+	o	ContentAssignmentId 
+	o	ContentId 
+	o	KioskId 
+	o	AssignedAt
+•	Chat History→ Represents a user session.
+	o	SessionId 
+	o	KioskId 
+	o	UserIdentifier 
+	o	UserType (Identified / Anonymous) 
+	o	StartTime 
+	o	EndTime 
+	o	Rate(feedback)
+	o	Duration
+•	Chat Messages
+	o	MessageId 
+	o	SessionId 
+	o	Sender (User / Kiosk) 
+	o	MessageText
+	o	Gesture
+	o	CreatedAt
+•	Audit Logs→ Tracks all system and user activities.
+	o	AuditLogId 
+	o	Module (Kiosk / Config / Content / etc.) 
+	o	ActionType 
+	o	EntityId 
+	o	PerformedBy 
+	o	Description 
+	o	CreatedAt
+`,
+
+api: `Kiosk Management Portal – API Endpoint Structure
+The system exposes a set of RESTful APIs that serve both the portal and the kiosks.
+The APIs are organized into functional domains, where the portal uses them for management operations, and kiosks use a dedicated set for polling and execution.
+Core API areas include:
+1. Kiosks
+	This entity manages the kiosk master record and its current operational state.
+	Get
+	•	GET /api/kiosks
+	Retrieve the list of all kiosks 
+	•	GET /api/kiosks/{kioskId}
+	Retrieve full kiosk details 
+	•	GET /api/kiosks/{kioskId}/status
+	Retrieve kiosk current status 
+	Set
+	•	POST /api/kiosks
+	Create a new kiosk 
+	•	POST /api/kiosks/{kioskId}/assign-profile
+	Assign a profile to a kiosk 
+	•	POST /api/kiosks/{kioskId}/assign-knowledge-base
+	Assign a knowledge base to a kiosk 
+	Update
+	•	PUT /api/kiosks/{kioskId}
+	Update kiosk master data 
+	•	PUT /api/kiosks/{kioskId}/state
+	Update kiosk state such as enabled/disabled or maintenance mode 
+	Delete
+	•	DELETE /api/kiosks/{kioskId}
+	Delete or deactivate kiosk 
+
+2. Profiles
+	This entity represents the configuration profile assigned to kiosks.
+	Get
+	•	GET /api/profiles
+	Retrieve all profiles 
+	•	GET /api/profiles/{profileId}
+	Retrieve profile details 
+	•	GET /api/profiles/{profileId}/kiosks
+	Retrieve kiosks using this profile 
+	Set
+	•	POST /api/profiles
+	Create a new profile 
+	•	POST /api/profiles/{profileId}/assign-kiosks
+	Assign profile to one or more kiosks 
+	Update
+	•	PUT /api/profiles/{profileId}
+	Update profile main information 
+	Delete
+	•	DELETE /api/profiles/{profileId}
+	Delete or deactivate profile 
+
+3. Profile Configurations
+	This entity stores the detailed configuration sections under a profile.
+	Get
+	•	GET /api/profiles/{profileId}/configurations
+	Retrieve all configuration items for a profile 
+	•	GET /api/profiles/{profileId}/configurations/{configId}
+	Retrieve specific configuration item 
+	•	GET /api/profiles/{profileId}/configurations/section/{sectionName}
+	Retrieve all config values under a section 
+	Set
+	•	POST /api/profiles/{profileId}/configurations
+	Add a new configuration item to a profile 
+	•	POST /api/profiles/{profileId}/configurations/bulk
+	Add multiple configuration items in one request 
+	Update
+	•	PUT /api/profiles/{profileId}/configurations/{configId}
+	Update one configuration item 
+	•	PUT /api/profiles/{profileId}/configurations/section/{sectionName}
+	Update a full section 
+	Delete
+	•	DELETE /api/profiles/{profileId}/configurations/{configId}
+	Delete one configuration item 
+
+4. Knowledge Bases
+	This entity manages the AI knowledge containers.
+	Get
+	•	GET /api/knowledge-bases
+	Retrieve all knowledge bases 
+	•	GET /api/knowledge-bases/{knowledgeBaseId}
+	Retrieve knowledge base details 
+	•	GET /api/knowledge-bases/{knowledgeBaseId}/kiosks
+	Retrieve kiosks assigned to this knowledge base 
+	Set
+	•	POST /api/knowledge-bases
+	Create a new knowledge base 
+	•	POST /api/knowledge-bases/{knowledgeBaseId}/assign-kiosks
+	Assign one or more kiosks 
+	•	POST /api/knowledge-bases/{knowledgeBaseId}/ingest
+	Trigger ingestion to AI engine 
+	Update
+	•	PUT /api/knowledge-bases/{knowledgeBaseId}
+	Update knowledge base details 
+	Delete
+	•	DELETE /api/knowledge-bases/{knowledgeBaseId}
+	Delete or deactivate knowledge base 
+
+5. Knowledge Base Documents
+	This entity manages the documents inside a knowledge base.
+	Get
+	•	GET /api/knowledge-bases/{knowledgeBaseId}/documents
+	Retrieve all documents in a knowledge base 
+	•	GET /api/knowledge-bases/{knowledgeBaseId}/documents/{documentId}
+	Retrieve document details 
+	Set
+	•	POST /api/knowledge-bases/{knowledgeBaseId}/documents
+	Upload a new document 
+	Update
+	•	PUT /api/knowledge-bases/{knowledgeBaseId}/documents/{documentId}
+	Update document metadata 
+	Delete
+	•	DELETE /api/knowledge-bases/{knowledgeBaseId}/documents/{documentId}
+	Delete document 
+
+6. Contents
+	This entity manages uploaded videos and images.
+	Get
+	•	GET /api/contents
+	Retrieve all content items 
+	•	GET /api/contents/{contentId}
+	Retrieve content details 
+	•	GET /api/contents/{contentId}/kiosks
+	Retrieve kiosks assigned to content 
+	Set
+	•	POST /api/contents
+	Upload new content 
+	•	POST /api/contents/{contentId}/assign-kiosks
+	Assign content to kiosks 
+	•	POST /api/contents/{contentId}/publish
+	Publish content for synchronization 
+	Update
+	•	PUT /api/contents/{contentId}
+	Update content metadata 
+	Delete
+	•	DELETE /api/contents/{contentId}
+	Delete content 
+
+7. Enrollments
+	This entity manages enrolled users for face recognition access.
+	Get
+	•	GET /api/enrollments
+	Retrieve all enrolled users 
+	•	GET /api/enrollments/{enrollmentId}
+	Retrieve enrollment details 
+	•	GET /api/enrollments/by-email/{email}
+	Retrieve enrollment by email 
+	•	GET /api/enrollments/{enrollmentId}/kiosks
+	Retrieve kiosks assigned to user 
+	Set
+	•	POST /api/enrollments
+	Create user enrollment 
+	•	POST /api/enrollments/{enrollmentId}/assign-kiosks
+	Assign kiosks to user 
+	Update
+	•	PUT /api/enrollments/{enrollmentId}
+	Update user enrollment details 
+	Delete
+	•	DELETE /api/enrollments/{enrollmentId}
+	Delete or deactivate enrollment 
+
+8. Kiosk Actions
+	This entity tracks operational commands such as restart and sync.
+	Get
+	•	GET /api/kiosks/{kioskId}/actions
+	Retrieve all actions for a kiosk 
+	•	GET /api/kiosks/{kioskId}/actions/{actionId}
+	Retrieve action details 
+	•	GET /api/kiosks/{kioskId}/pending-actions
+	Retrieve pending actions 
+	Set
+	•	POST /api/kiosks/{kioskId}/actions/restart
+	Create restart action 
+	•	POST /api/kiosks/{kioskId}/actions/config-sync
+	Create config sync action 
+	•	POST /api/kiosks/{kioskId}/actions/content-sync
+	Create content sync action 
+	Update
+	•	PUT /api/kiosks/{kioskId}/actions/{actionId}
+	Update action status 
+	Delete
+	•	DELETE /api/kiosks/{kioskId}/actions/{actionId}
+	Cancel or remove action 
+
+9. Kiosk Heartbeats
+	This entity tracks kiosk connectivity and polling health.
+	Get
+	•	GET /api/kiosks/{kioskId}/heartbeats
+	Retrieve heartbeat history 
+	•	GET /api/kiosks/{kioskId}/heartbeats/latest
+	Retrieve latest heartbeat 
+	Set
+	•	POST /api/kiosks/{kioskId}/heartbeat
+	Submit heartbeat from kiosk 
+	Update
+	•	Usually not required for manual update, because heartbeats are system-generated. 
+	Delete
+	•	Usually not required in normal business flow. 
+
+10. Chat Sessions
+	This entity represents a session per user/kiosk.
+	Get
+	•	GET /api/chat-sessions
+	Retrieve sessions with filters 
+	•	GET /api/chat-sessions/{sessionId}
+	Retrieve session details 
+	•	GET /api/kiosks/{kioskId}/chat-sessions
+	Retrieve sessions for a kiosk 
+	•	GET /api/users/{userIdentifier}/chat-sessions
+	Retrieve sessions for a user 
+	Set
+	•	Usually created by backend integration rather than portal UI. 
+	Update
+	•	PUT /api/chat-sessions/{sessionId}
+	Update session metadata if needed 
+	Delete
+	•	DELETE /api/chat-sessions/{sessionId}
+	Delete or archive session if business allows 
+
+11. Chat Messages
+	This entity stores the individual messages inside a session.
+	Get
+	•	GET /api/chat-sessions/{sessionId}/messages
+	Retrieve all session messages 
+	•	GET /api/chat-sessions/{sessionId}/messages/{messageId}
+	Retrieve one message 
+	Set
+	•	Usually inserted through system integration, not portal manual entry. 
+	Update
+	•	PUT /api/chat-sessions/{sessionId}/messages/{messageId}
+	Update message if correction is allowed 
+	Delete
+	•	DELETE /api/chat-sessions/{sessionId}/messages/{messageId}
+	Delete message if allowed 
+
+12. Audit Logs
+	This entity stores system and user activity logs.
+	Get
+	•	GET /api/audit-logs
+	Retrieve all audit logs 
+	•	GET /api/audit-logs/{auditLogId}
+	Retrieve log details 
+	•	GET /api/audit-logs/export/pdf
+	Export logs in PDF 
+	•	GET /api/audit-logs/export/excel
+	Export logs in Excel 
+	Set
+	•	Usually created automatically by the system 
+	Update
+	•	Normally not updated 
+	Delete
+	•	Usually not deleted in normal business flow unless retention rules apply 
+
+13. Kiosk Polling Interfaces
+	These are not tied to one table only, but they are critical.
+	Kiosk Client APIs
+	Get
+	•	GET /api/kiosk-client/{kioskId}/configuration
+	Get assigned profile/configuration 
+	•	GET /api/kiosk-client/{kioskId}/knowledge-base
+	Get assigned knowledge base reference 
+	•	GET /api/kiosk-client/{kioskId}/contents
+	Get content assigned to kiosk 
+	•	GET /api/kiosk-client/{kioskId}/updates
+	Get pending updates/actions 
+	Set
+	•	POST /api/kiosk-client/{kioskId}/acknowledgements
+	Acknowledge completed action or applied update
+`
+};
+
+const reqItems = document.querySelectorAll('.req-item');
+const reqContent = document.getElementById('reqContent');
+
+if (reqContent) reqContent.textContent = reqData.overview;
+
+reqItems.forEach(item => {
+  item.addEventListener('click', () => {
+    reqItems.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    reqContent.textContent = reqData[item.dataset.req];
+  });
+});
+  </script>
+</body>
+</html>
